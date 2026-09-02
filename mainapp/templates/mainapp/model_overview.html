@@ -2,14 +2,14 @@
 {% if model.categories.all %}
 <p>Categories:
     {% for category in model.categories.all %}
-    <a href="{% url 'search' %}?category={{ category.name }}"><span class="label label-default">{{ category.name }}</span></a>
+    <a href="{% url 'search' %}?category={{ category.name }}"><span class="badge text-bg-secondary">{{ category.name }}</span></a>
     {% endfor %}
 </p>
 {% endif %}
 {% if model.tags.items %}
 <p>Tags:
     {% for k, v in model.tags.items %}
-    <a href="{% url 'search' %}?tag={{ k }}={{ v }}"><span class="label label-default">{{ k }}={{ v }}</span></a>
+    <a href="{% url 'search' %}?tag={{ k }}={{ v }}"><span class="badge text-bg-secondary">{{ k }}={{ v }}</span></a>
     {% endfor %}
 </p>
 {% endif %}
@@ -17,11 +17,11 @@
 <p>Description:</p>
 <p>{{ model.rendered_description|safe }}</p>
 {% endif %}
-<p>Contributed by <a href="{% url 'user' model.author.profile.uid %}"><span class="label label-default">{{ model.author.profile.display_name }}</span></a></p>
+<p>Contributed by <a href="{% url 'user' model.author.profile.uid %}"><span class="badge text-bg-secondary">{{ model.author.profile.display_name }}</span></a></p>
 {% if model.revisions|length > 1 %}
 <p>This revision was uploaded
     {% if model.uploader %}
-    by <a href="{% url 'user' model.uploader.profile.uid %}"><span class="label label-default">{{ model.uploader.profile.display_name }}</span></a>
+    by <a href="{% url 'user' model.uploader.profile.uid %}"><span class="badge text-bg-secondary">{{ model.uploader.profile.display_name }}</span></a>
     {% endif %}
     on {{ model.upload_date|date:"c" }}</p>
 {% endif %}
@@ -35,10 +35,10 @@
 </p>
 {% endif %}
 <p>{{ license }}</p>
-<a href="{% url 'get_model' model.model_id model.revision %}" class="btn btn-default" role="button">Download</a>
+<a href="{% url 'get_model' model.model_id model.revision %}" class="btn btn-secondary mb-2" role="button">Download</a>
 {% if user.is_authenticated and model.author == user or user.profile.is_admin %}
-<a href="{% url 'edit' model.model_id model.revision %}" class="btn btn-default" role="button">Edit Metadata</a>
-<a href="{% url 'revise' model.model_id %}" class="btn btn-default" role="button">Revise</a>
+<a href="{% url 'edit' model.model_id model.revision %}" class="btn btn-secondary mb-2" role="button">Edit Metadata</a>
+<a href="{% url 'revise' model.model_id %}" class="btn btn-secondary mb-2" role="button">Revise</a>
 {% endif %}
 {% if user.is_authenticated and user.profile.is_admin %}
 {% if model.is_hidden %}

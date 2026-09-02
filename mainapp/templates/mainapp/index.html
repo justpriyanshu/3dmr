@@ -18,20 +18,20 @@
 	</div>
 	<hr>
 	{% if models %}
-	<div class="row flex">
+	<div class="row">
 		{% for model in models %}
 			{% include "mainapp/modelpanel.html" %}
 		{% endfor %}
 	</div>
 	{% endif %}
 	{% if paginator %}
-	<div class="row" style="margin-bottom:30px;text-align:center;">
-		<div class="btn-group" role="group" aria-label="...">
+	<div class="mb-4 text-center">
+		<div class="btn-group" role="group" aria-label="Pagination">
 			{% for page in paginator.page_range %}
 			{% if page == page_id %}
-			<a class="btn btn-primary disabled">{{ page }}</a>
+			<a class="btn btn-primary disabled" aria-disabled="true" aria-current="page">{{ page }}</a>
 			{% else %}
-			<a href="{% url 'index' %}?page={{ page }}" class="btn btn-default">{{ page }}</a>
+			<a href="{% url 'index' %}?page={{ page }}" class="btn btn-outline-secondary">{{ page }}</a>
 			{% endif %}
 			{% endfor %}
 		</div>

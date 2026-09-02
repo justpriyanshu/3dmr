@@ -121,15 +121,17 @@ class ModelField(forms.FileField):
             )
 
 
-# This function adds the 'form-control' class to all fields, with possible exceptions
-def init_bootstrap_form(fields, exceptions=[]):
-    # add class="form-control" to all fields
-    for field in fields:
-        fields[field].widget.attrs['class'] = 'form-control'
-
-    # remove from exceptions
-    for field in exceptions:
-        del fields[field].widget.attrs['class']
+# This function adds the appropriate Bootstrap 5 CSS class to every field's widget
+def init_bootstrap_form(fields):
+    for field in fields.values():
+        widget = field.widget
+        if isinstance(widget, (forms.RadioSelect, forms.CheckboxInput, forms.CheckboxSelectMultiple)):
+            css_class = 'form-check-input'
+        elif isinstance(widget, forms.Select):
+            css_class = 'form-select'
+        else:
+            css_class = 'form-control'
+        widget.attrs['class'] = css_class
 
 class UploadFileForm(forms.Form):
     model_file = ModelField(
@@ -137,7 +139,7 @@ class UploadFileForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(UploadFileForm, self).__init__(*args, **kwargs)
-        init_bootstrap_form(self.fields, ['model_file'])
+        init_bootstrap_form(self.fields)
 
 class MetadataForm(forms.Form):
     title = forms.CharField(
@@ -183,7 +185,7 @@ class MetadataForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(MetadataForm, self).__init__(*args, **kwargs)
-        init_bootstrap_form(self.fields, ['model_source', 'license'])
+        init_bootstrap_form(self.fields)
 
     def clean_source(self):
         if self.cleaned_data.get('model_source') == 'other_source' and not self.cleaned_data['source']:
@@ -197,7 +199,7 @@ class UploadFileMetadataForm(MetadataForm):
 
     def __init__(self, *args, **kwargs):
         super(UploadFileMetadataForm, self).__init__(*args, **kwargs)
-        init_bootstrap_form(self.fields, ['model_source', 'license', 'model_file'])
+        init_bootstrap_form(self.fields)
 
 
 class UserDescriptionForm(forms.Form):
@@ -205,3 +207,7 @@ class UserDescriptionForm(forms.Form):
         widget=forms.Textarea(attrs={'cols': '100', 'rows': '6'}),
         max_length=2048
     )
+
+    def __init__(self, *args, **kwargs):
+        super(UserDescriptionForm, self).__init__(*args, **kwargs)
+        init_bootstrap_form(self.fields)

@@ -14,35 +14,33 @@
 {% block body %}
 <div class="container">
 	<div class="col-12">
-		<div class="page-header">
-			<h1>Search Results
-			{% if query %}
-			<small>'{{ query }}'{% if tag or category %},{% endif %}</small>
-			{% endif %}
-			{% if category %}
-			<small>category '{{ category }}'{% if tag %},{% endif %}</small>
-			{% endif %}
-			{% if tag %}
-			<small>tag '{{ tag }}'</small>
-			{% endif %}
-			</h1>
-		</div>
+		<h1 class="pb-2 mb-4 border-bottom">Search Results
+		{% if query %}
+		<small class="text-body-secondary">'{{ query }}'{% if tag or category %},{% endif %}</small>
+		{% endif %}
+		{% if category %}
+		<small class="text-body-secondary">category '{{ category }}'{% if tag %},{% endif %}</small>
+		{% endif %}
+		{% if tag %}
+		<small class="text-body-secondary">tag '{{ tag }}'</small>
+		{% endif %}
+		</h1>
 	</div>
 	{% if models %}
-	<div class="row flex">
+	<div class="row">
 		{% for model in models %}
 			{% include "mainapp/modelpanel.html" %}
 		{% endfor %}
 	</div>
 	{% endif %}
 	{% if paginator %}
-	<div class="row" style="margin-bottom:30px;text-align:center;">
-		<div class="btn-group" role="group" aria-label="...">
+	<div class="mb-4 text-center">
+		<div class="btn-group" role="group" aria-label="Pagination">
 			{% for page in paginator.page_range %}
 			{% if page == page_id %}
-			<a class="btn btn-primary disabled">{{ page }}</a>
+			<a class="btn btn-primary disabled" aria-disabled="true" aria-current="page">{{ page }}</a>
 			{% else %}
-			<a href="{% url 'search' %}{{ url_params }}&page={{ page }}" class="btn btn-default">{{ page }}</a>
+			<a href="{% url 'search' %}{{ url_params }}&page={{ page }}" class="btn btn-outline-secondary">{{ page }}</a>
 			{% endif %}
 			{% endfor %}
 		</div>
