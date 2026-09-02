@@ -28,21 +28,24 @@
 {% endblock %}
 {% block body %}
 <div class="container">
-	<div class="row">
-		<br>
+	<div class="row mt-3">
 		<div class="col-md-12">
 			<ul class="nav nav-tabs" role="tablist">
-				<li class="nav-item active"><a class="nav-link active" data-toggle="tab" href="#view" role="tab">3D View</a></li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link active" id="view-tab" data-bs-toggle="tab" data-bs-target="#view" type="button" role="tab" aria-controls="view" aria-selected="true">3D View</button>
+				</li>
 				{% if model.location %}
-				<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#map" role="tab">Map</a></li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link" id="map-tab" data-bs-toggle="tab" data-bs-target="#map" type="button" role="tab" aria-controls="map" aria-selected="false">Map</button>
+				</li>
 				{% endif %}
 			</ul>
 		</div>
-		<div class="col-md-8" style="margin-bottom: 20px;">
+		<div class="col-md-8 mb-3">
 			<div id="model-status"></div>
 			<div id="model-preview">
 				<div class="tab-content" style="overflow: hidden;">
-					<div class="tab-pane active" id="view" role="tabpanel">
+					<div class="tab-pane active" id="view" role="tabpanel" aria-labelledby="view-tab">
 						<div class="render-pane" data-model="{{ model.model_id }}" data-revision="{{ model.revision }}" id="render-pane{{ model.model_id }}.{{ model.revision }}" style="height: 480px;">
 							<div id="fullscreen-button">&#x26F6;</div>
 							<div id="labels-container"></div>
@@ -53,7 +56,7 @@
 						</div>
 					</div>
 					{% if model.location %}
-					<div class="tab-pane" id="map" role="tabpanel">
+					<div class="tab-pane" id="map" role="tabpanel" aria-labelledby="map-tab">
 						<div id="mapdiv">
 						</div>
 					</div>
@@ -61,44 +64,49 @@
 				</div>
 			</div>
 		</div>
-		<div>
 		<div class="col-md-4">
 			{% if model.is_hidden %}
-			<div class="panel panel-danger">
+			<div class="card border-danger mb-4">
+				<div class="card-header text-bg-danger">
 			{% else %}
-			<div class="panel panel-primary">
+			<div class="card border-primary mb-4">
+				<div class="card-header text-bg-primary">
 			{% endif %}
-				<div class="panel-heading">
-					<h3 class="panel-title">
+					<h3 class="card-title fs-5 mb-0">
 						{{ model.title }} 
 						{% if not latest_page %}
 							<small style="cursor:help;" title="This is {% if model.latest %}the latest version{% else %}an older version{% endif %}">
 							(Revision {{ model.revision }})
 							</small>
 						{% endif %}
-						
 					</h3>
 				</div>
-					<div class="panel-body" style="padding:0px;">
-						<ul class="nav nav-tabs" role="tablist">
-							<li role="presentation" class="active"><a href="#overview" aria-controls="overview" role="tab" data-toggle="tab">Overview</a></li>
-							<li role="presentation"><a href="#stats" aria-controls="stats" role="tab" data-toggle="tab">Stats</a></li>
-							<li role="presentation"><a href="#history" aria-controls="history" role="tab" data-toggle="tab">History</a></li>
-						</ul>
-						<div class="tab-content">
-							<div role="tabpanel" class="tab-pane active" id="overview">
-								{% include 'mainapp/model_overview.html' %}
-							</div>
-							<div role="tabpanel" class="tab-pane" id="stats">
-								{% include 'mainapp/model_stats.html' %}
-							</div>
-							<div role="tabpanel" class="tab-pane" id="history">
-								{% include 'mainapp/model_history.html' %}
-							</div>
+				<div class="card-body p-0">
+					<ul class="nav nav-tabs" role="tablist">
+						<li class="nav-item" role="presentation">
+							<button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link" id="stats-tab" data-bs-toggle="tab" data-bs-target="#stats" type="button" role="tab" aria-controls="stats" aria-selected="false">Stats</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab" aria-controls="history" aria-selected="false">History</button>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<div role="tabpanel" class="tab-pane active" id="overview" aria-labelledby="overview-tab">
+							{% include 'mainapp/model_overview.html' %}
+						</div>
+						<div role="tabpanel" class="tab-pane" id="stats" aria-labelledby="stats-tab">
+							{% include 'mainapp/model_stats.html' %}
+						</div>
+						<div role="tabpanel" class="tab-pane" id="history" aria-labelledby="history-tab">
+							{% include 'mainapp/model_history.html' %}
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
 	</div>
 </div>
 <script>

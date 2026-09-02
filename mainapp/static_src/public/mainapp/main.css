@@ -2,7 +2,7 @@ body {
 	padding-bottom: 50px;
 }
 
-.col-md-4.col-sm-6 .panel-body div:first-of-type {
+.col-md-4.col-sm-6 .card-body div:first-of-type {
 	text-align: center;
 	margin-bottom: 10px;
 }
@@ -13,12 +13,7 @@ body {
 	object-fit: cover;
 }
 
-.row.flex {
-	display: flex;
-	flex-wrap: wrap;
-}
-
-.col-md-4 .panel-body > p {
+.col-md-4 .card-body > p {
 	line-height: 1.5em;
 }
 
@@ -28,11 +23,15 @@ nav img {
 	margin-right: 12px;
 }
 
-.panel-new {
+a {
+	text-decoration: none;
+}
+
+.card-new {
 	background-color: #fcf8e3;
 }
 
-.form-group.required > label:before {
+.required > .form-label::before {
 	color: #60ff14;
 	content: "*";
 	margin-right: 5px;
@@ -42,7 +41,7 @@ nav img {
 	display: none;
 }
 
-@media (max-width: 1180px) and (min-width: 948px) {
+@media (max-width: 1180px) and (min-width: 992px) {
 	.navbar-brand {
 		display: none;
 	}
@@ -50,17 +49,9 @@ nav img {
 	.navbar-short {
 		display: block;
 	}
-}
 
-@media (max-width: 1080px) and (min-width: 948px) {
 	#search {
-		width: 85px;
-	}
-}
-
-@media (max-width: 947px) and (min-width: 768px) {
-	#search {
-		width:700px;
+		width: 120px;
 	}
 }
 
@@ -72,26 +63,20 @@ canvas {
 	width: 100%;
 }
 
+.render-pane {
+	position: relative;
+}
+
 /* Specific to user page */
-.col-lg-4.col-12 {
-	text-align: center;
-}
-
-.col-lg-4.col-12 table {
-	margin: auto;
-}
-
-.col-lg-4.col-12 td {
+.user-changes td {
 	padding: 3px;
 }
 
-.col-lg-8.col-12 > .col-12 {
-	margin-bottom: 30px;
-	text-align: center;
-	clear: both;
-}
-
 /* Specific to model upload page */
+.form-label {
+	font-weight: bold;
+
+}
 form > #map {
 	margin: 0px auto;
 	width: 450px;
@@ -103,17 +88,27 @@ form > #map-descriptor {
 	text-align: center;
 }
 
-.panel-body > a.btn-default  {
-	margin-bottom: 10px;
+pre {
+	display: block;
+	padding: 9.5px;
+	margin: 0 0 10px;
+	font-size: 13px;
+	line-height: 1.42857143;
+	color: #333;
+	word-break: break-all;
+	word-wrap: break-word;
+	background-color: #f5f5f5;
+	border: 1px solid #ccc;
+	border-radius: 4px;
 }
 
 /* Specific to model page */
-.panel-footer > form > button {
+.card-footer > form > button {
 	padding-bottom: 1px;
 	padding-top: 1px;
 }
 
-.panel-body.panel-hidden {
+.card-body.card-hidden {
 	background-color: #faf0f0;
 }
 
@@ -171,38 +166,11 @@ form > #map-descriptor {
     border-top: 1px solid rgba(255,255,255,0.1);
 }
 
-.panel-body .tab-content {
+.card-body .tab-content {
     padding: 15px;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid var(--bs-border-color);
 }
 
-.revision-item.list-group-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
+.revision-item {
     transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-bottom: none;
-}
-
-.revision-item.list-group-item:last-child {
-    border-bottom: 1px solid #ddd;
-}
-
-.revision-item.list-group-item.active,
-.revision-item.list-group-item.active:focus {
-    background-color: #007bff;
-    border-color: #007bff;
-    color: #fff;
-    z-index: 2;
-}
-
-.revision-item.list-group-item:not(.active):hover {
-    background-color: #e9ecef;
-}
-
-.revision-item.list-group-item.active div {
-    color: rgba(255, 255, 255, 0.75);
 }
