@@ -28,6 +28,12 @@
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div id="navbar" class="collapse navbar-collapse">
+				<form id="searchForm" class="d-flex me-auto my-2 my-lg-0" role="search" action="{% url 'search' %}" method="GET">
+                    <input type="search" class="form-control" id="search" placeholder="Search..." title="Search" aria-label="Search" name="query" {% if query %}value="{{ query }}"{% endif %}>
+                    <button class="btn btn-outline-light ms-2 text-nowrap" type="button" data-bs-toggle="collapse" data-bs-target="#advSearch" aria-expanded="false" aria-controls="advSearch">
+                        Advanced <span aria-hidden="true">&#9662;</span>
+                    </button>
+                </form>
 				<ul class="navbar-nav ms-auto">
 					<li class="nav-item"><a class="nav-link" target="_blank" href="https://wiki.openstreetmap.org/wiki/3D_Model_Repository">Documentation</a></li>
 					<li class="nav-item"><a class="nav-link" href="{% url 'docs' %}">API Docs</a></li>
@@ -50,25 +56,37 @@
 		</div>
 	</nav>
 
-	<div class="bg-body-tertiary border-bottom">
-		<div class="container py-2">
-			<form class="row g-2 align-items-center" role="search" action="{% url 'search' %}" method="GET">
-				<div class="col-12 col-md-5">
-					<input type="search" class="form-control" id="search" placeholder="Search..." title="Search" aria-label="Search" name="query" {% if query %}value="{{ query }}"{% endif %}>
+	<div class="collapse bg-dark border-top border-secondary" id="advSearch">
+		<div class="container-fluid">
+		<div class="row py-3">
+			<div class="col-12 col-md-6 mb-3 mb-md-0">
+				<label class="text-white fw-bold mb-1">Category</label>
+				<input type="text" class="form-control form-control-sm mb-2 filter-input" data-target="#catList" placeholder="Search box...">
+				<div id="catList" class="adv-list">
+					{% for c in all_categories %}
+					<div class="form-check filter-item">
+						<input class="form-check-input" type="checkbox" name="category" value="{{ c }}" id="cat-{{ forloop.counter }}" form="searchForm" {% if c in categories %}checked{% endif %}>
+						<label class="form-check-label text-white" for="cat-{{ forloop.counter }}">{{ c }}</label>
+					</div>
+					{% empty %}<small class="text-muted">No categories.</small>{% endfor %}
 				</div>
-				<div class="col-6 col-md-2">
-					<input type="text" class="form-control" id="search-category" placeholder="Category" title="Category" aria-label="Category" name="category" {% if category %}value="{{ category }}"{% endif %}>
+			</div>
+			<div class="col-12 col-md-6">
+				<label class="text-white fw-bold mb-1">Tags</label>
+				<input type="text" class="form-control form-control-sm mb-2 filter-input" data-target="#tagList" placeholder="Search box...">
+				<div id="tagList" class="adv-list">
+					{% for t in all_tags %}
+					<div class="form-check filter-item">
+						<input class="form-check-input" type="checkbox" name="tag" value="{{ t }}" id="tag-{{ forloop.counter }}" form="searchForm" {% if t in tags %}checked{% endif %}>
+						<label class="form-check-label text-white" for="tag-{{ forloop.counter }}">{{ t }}</label>
+					</div>
+					{% empty %}<small class="text-muted">No tags.</small>{% endfor %}
 				</div>
-				<div class="col-6 col-md-3">
-					<input type="text" class="form-control" id="search-tag" placeholder="Tag (key=value)" title="Tag in key=value format" aria-label="Tag" name="tag" pattern="^[^=]+=.+$" {% if tag %}value="{{ tag }}"{% endif %}>
-				</div>
-				<div class="col-12 col-md-2 d-flex gap-2">
-					<button type="submit" class="btn btn-primary flex-fill">Search</button>
-					{% if tag or category %}
-					<a class="btn btn-outline-secondary" href="{% url 'search' %}{% if query %}?query={{ query|urlencode }}{% endif %}" title="Clear filters">Clear</a>
-					{% endif %}
-				</div>
-			</form>
+			</div>
+			<div class="col-12 mt-3">
+				<button type="submit" form="searchForm" class="btn btn-primary btn-sm">Apply filters</button>
+			</div>
+		</div>
 		</div>
 	</div>
 
@@ -101,5 +119,15 @@
 	{% endcompress %}
 	{% block footeradditions %}
 	{% endblock %}
+	<script>
+	document.querySelectorAll('.filter-input').forEach(function (input) {
+		input.addEventListener('input', function () {
+			var q = this.value.toLowerCase();
+			document.querySelectorAll(this.dataset.target + ' .filter-item').forEach(function (item) {
+				item.style.display = item.textContent.toLowerCase().indexOf(q) > -1 ? '' : 'none';
+			});
+		});
+	});
+	</script>
 </body>
 </html>
