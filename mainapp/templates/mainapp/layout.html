@@ -57,38 +57,49 @@
 	</nav>
 
 	<div class="collapse bg-dark border-top border-secondary" id="advSearch">
-		<div class="container-fluid">
-		<div class="row py-3">
-			<div class="col-12 col-md-6 mb-3 mb-md-0">
-				<label class="text-white fw-bold mb-1">Category</label>
-				<input type="text" class="form-control form-control-sm mb-2 filter-input" data-target="#catList" placeholder="Search box...">
-				<div id="catList" class="adv-list">
-					{% for c in all_categories %}
-					<div class="form-check filter-item">
-						<input class="form-check-input" type="checkbox" name="category" value="{{ c }}" id="cat-{{ forloop.counter }}" form="searchForm" {% if c in categories %}checked{% endif %}>
-						<label class="form-check-label text-white" for="cat-{{ forloop.counter }}">{{ c }}</label>
+		<div class="container-fluid py-3">
+			<div class="row g-3">
+				<div class="col-12 col-md-6">
+					<div class="filter-dropdown" data-filter="category" data-label="Categories">
+						<div class="d-flex align-items-start gap-2">
+							<label class="form-label text-white fw-bold mb-0 pt-2 text-nowrap" for="filter-category">Categories</label>
+							<div class="position-relative flex-grow-1">
+								<input type="search" id="filter-category" class="form-control filter-search" placeholder="Type to search categories..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="filter-category-list">
+								<div class="dropdown-menu dropdown-menu-dark w-100 p-2 filter-menu" id="filter-category-list">
+									<div class="filter-list" role="group"></div>
+									<small class="text-secondary filter-status d-block mt-1"></small>
+								</div>
+								<div class="filter-chips mt-2"></div>
+							</div>
+						</div>
 					</div>
-					{% empty %}<small class="text-muted">No categories.</small>{% endfor %}
+				</div>
+				<div class="col-12 col-md-6">
+					<div class="filter-dropdown" data-filter="tag" data-label="Tags">
+						<div class="d-flex align-items-start gap-2">
+							<label class="form-label text-white fw-bold mb-0 pt-2 text-nowrap" for="filter-tag">Tags</label>
+							<div class="position-relative flex-grow-1">
+								<input type="search" id="filter-tag" class="form-control filter-search" placeholder="Type to search tags (key=value)..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="filter-tag-list">
+								<div class="dropdown-menu dropdown-menu-dark w-100 p-2 filter-menu" id="filter-tag-list">
+									<div class="filter-list" role="group"></div>
+									<small class="text-secondary filter-status d-block mt-1"></small>
+								</div>
+								<div class="filter-chips mt-2"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 d-flex gap-2">
+					<button type="submit" form="searchForm" class="btn btn-primary btn-sm">Apply filters</button>
+					<button type="button" class="btn btn-outline-secondary btn-sm" id="clearFilters">Clear filters</button>
 				</div>
 			</div>
-			<div class="col-12 col-md-6">
-				<label class="text-white fw-bold mb-1">Tags</label>
-				<input type="text" class="form-control form-control-sm mb-2 filter-input" data-target="#tagList" placeholder="Search box...">
-				<div id="tagList" class="adv-list">
-					{% for t in all_tags %}
-					<div class="form-check filter-item">
-						<input class="form-check-input" type="checkbox" name="tag" value="{{ t }}" id="tag-{{ forloop.counter }}" form="searchForm" {% if t in tags %}checked{% endif %}>
-						<label class="form-check-label text-white" for="tag-{{ forloop.counter }}">{{ t }}</label>
-					</div>
-					{% empty %}<small class="text-muted">No tags.</small>{% endfor %}
-				</div>
-			</div>
-			<div class="col-12 mt-3">
-				<button type="submit" form="searchForm" class="btn btn-primary btn-sm">Apply filters</button>
-			</div>
-		</div>
 		</div>
 	</div>
+	{{ all_categories|json_script:"all-categories" }}
+	{{ all_tags|json_script:"all-tags" }}
+	{{ categories|json_script:"selected-categories" }}
+	{{ tags|json_script:"selected-tags" }}
 
 	{% if messages %}
 	<div class="container mt-3">
@@ -117,17 +128,8 @@
 	{% compress js %}
 	<script src="{% static 'mainapp/lib/bootstrap.bundle.min.js' %}"></script>
 	{% endcompress %}
+	{% vite_asset 'src/search_filters.js' %}
 	{% block footeradditions %}
 	{% endblock %}
-	<script>
-	document.querySelectorAll('.filter-input').forEach(function (input) {
-		input.addEventListener('input', function () {
-			var q = this.value.toLowerCase();
-			document.querySelectorAll(this.dataset.target + ' .filter-item').forEach(function (item) {
-				item.style.display = item.textContent.toLowerCase().indexOf(q) > -1 ? '' : 'none';
-			});
-		});
-	});
-	</script>
 </body>
 </html>

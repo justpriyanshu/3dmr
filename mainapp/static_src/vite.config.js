@@ -11,6 +11,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'src/main.js'),
+        search_filters: resolve(__dirname, 'src/search_filters.js'),
       },
       output: {
         entryFileNames: 'mainapp/[name].bundle.js',
@@ -18,3 +19,5 @@ export default defineConfig({
     },
   },
 });
+
+

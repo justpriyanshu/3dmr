@@ -175,13 +175,52 @@ pre {
     transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
-.adv-list {
-	max-height: 180px;
-	overflow-y: auto;
-	background: rgba(255, 255, 255, .06);
-	border-radius: .25rem;
-	padding: .5rem;
+/* search filter panel */
+.filter-menu {
+	top: 100%;
+	left: 0;
+	margin-top: .25rem;
 }
+
+.filter-menu .filter-list {
+	max-height: 220px;
+	overflow-y: auto;
+}
+
+.filter-menu .form-check-label {
+	cursor: pointer;
+}
+
+.filter-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .25rem;
+}
+
+.filter-chips:empty {
+	display: none;
+}
+
+.filter-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: .35rem;
+	font-weight: normal;
+	max-width: 100%;
+}
+
+.filter-chip > span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.filter-chip .btn-close {
+	font-size: .5rem;
+}
+
 @media (max-width: 768px) {
-	.adv-list { max-height: 140px; }
+	.filter-menu .filter-list {
+		max-height: 160px;
+	}
 }
