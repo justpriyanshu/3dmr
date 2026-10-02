@@ -9,7 +9,7 @@ def search_filters(request):
             for k, v in (t or {}).items():
                 tags.add('{}={}'.format(k, v))
         data = {
-            'all_categories': list(Category.objects.order_by('name').values_list('name', flat=True)),
+            'all_categories': sorted(Category.objects.values_list('name', flat=True)),
             'all_tags': sorted(tags),
         }
         cache.set('search_filters', data, 300)
