@@ -194,7 +194,7 @@ pre {
 .filter-chips {
 	display: flex;
 	flex-wrap: wrap;
-	gap: .25rem;
+	gap: .5rem;
 }
 
 .filter-chips:empty {
@@ -222,5 +222,15 @@ pre {
 @media (max-width: 768px) {
 	.filter-menu .filter-list {
 		max-height: 160px;
+	}
+}
+
+.navbar-search {
+	width: 100%;
+}
+
+@media (min-width: 992px) {
+	.navbar-search {
+		width: auto;
 	}
 }

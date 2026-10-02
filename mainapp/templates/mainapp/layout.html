@@ -27,13 +27,7 @@
 			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar" aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div id="navbar" class="collapse navbar-collapse">
-				<form id="searchForm" class="d-flex me-auto my-2 my-lg-0" role="search" action="{% url 'search' %}" method="GET">
-                    <input type="search" class="form-control" id="search" placeholder="Search..." title="Search" aria-label="Search" name="query" {% if query %}value="{{ query }}"{% endif %}>
-                    <button class="btn btn-outline-light ms-2 text-nowrap" type="button" data-bs-toggle="collapse" data-bs-target="#advSearch" aria-expanded="false" aria-controls="advSearch">
-                        Advanced <span aria-hidden="true">&#9662;</span>
-                    </button>
-                </form>
+			<div id="navbar" class="collapse navbar-collapse order-lg-2">
 				<ul class="navbar-nav ms-auto">
 					<li class="nav-item"><a class="nav-link" target="_blank" href="https://wiki.openstreetmap.org/wiki/3D_Model_Repository">Documentation</a></li>
 					<li class="nav-item"><a class="nav-link" href="{% url 'docs' %}">API Docs</a></li>
@@ -53,6 +47,12 @@
 					{% endif %}
 				</ul>
 			</div>
+			<form id="searchForm" class="navbar-search d-flex my-2 my-lg-0 order-lg-1" role="search" action="{% url 'search' %}" method="GET">
+				<input type="search" class="form-control" id="search" placeholder="Search..." title="Search" aria-label="Search" name="query" {% if query %}value="{{ query }}"{% endif %}>
+				<button class="btn btn-outline-light ms-2 text-nowrap" type="button" data-bs-toggle="collapse" data-bs-target="#advSearch" aria-expanded="false" aria-controls="advSearch">
+					Advanced <span aria-hidden="true">&#9662;</span>
+				</button>
+			</form>
 		</div>
 	</nav>
 
@@ -127,6 +127,7 @@
 
 	{% compress js %}
 	<script src="{% static 'mainapp/lib/bootstrap.bundle.min.js' %}"></script>
+	<script src="{% static 'mainapp/search_filters.js' %}"></script>
 	{% endcompress %}
 	{% vite_asset 'src/search_filters.js' %}
 	{% block footeradditions %}

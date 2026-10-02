@@ -103,7 +103,13 @@ def search(request):
     RESULTS_PER_PAGE = 6
 
     query = request.GET.get('query', None)
-    tags = [t for t in request.GET.getlist('tag') if t]
+    tags = []
+    for tag in request.GET.getlist('tag'):
+        try:
+            key, value = get_kv(tag)
+        except ValueError:
+            continue
+        tags.append(tag)
     categories = [c for c in request.GET.getlist('category') if c]
     try:
         page_id = int(request.GET.get('page', 1))
